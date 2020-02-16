@@ -1,39 +1,13 @@
 
 <!-- saved from url=(0062)https://vasturiano.github.io/force-graph/example/medium-graph/ -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <style> body { margin: 0; } </style>
+<html><head>
 
- ></script><style type="text/css">.graph-tooltip {
-  position: absolute;
-  transform: translate(-50%, 25px);
-  font-family: sans-serif;
-  font-size: 16px;
-  padding: 4px;
-  border-radius: 3px;
-  color: #eee;
-  background: rgba(0,0,0,0.65);
-  visibility: hidden; /* by default */
-}
-
-.grabbable {
-  cursor: move;
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-
-.grabbable:active {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
-}
-</style>
   <script src="//unpkg.com/force-graph"></script>
-   <!--<script src="force-graph.js"></script>-->
+  <!-- <script src="force-graph.js"></script>-->
 </head>
 
 <body>
-  <div id="graph"><div style="position: relative;"><canvas width="1920" height="1007" style="width: 1920px; height: 1007px; background: rgb(16, 16, 32);"></canvas><div class="graph-tooltip" style="top: 895px; left: 1574px;"></div></div></div>
+  <div id="graph"><div style="position: relative;"><canvas width="5" height="5" style="width: 5; height: 5; background: rgb(16, 16, 32);"></canvas><div class="graph-tooltip" style="top: 200; left: 0;"></div></div></div>
 
   <script>
     // Random tree
@@ -52,14 +26,16 @@
     };    
     const Graph = ForceGraph()
       (document.getElementById('graph'))
+        .width(1200)
+        .height(800)
         .linkDirectionalParticles(2) 
         .nodeAutoColorBy('urltype') 
         .backgroundColor('#000000')
         .linkColor(() => 'rgba(255,255,255,0.2)')
         .nodeRelSize(6)   
         .onNodeClick(node => window.open('http://' + node.name, '_blank'))   
-        .graphData(gData)
-        .nodeCanvasObject(({ name, urltype,id, x, y }, ctx) => {
+        .graphData(gData)                
+        .nodeCanvasObject(({ name, urltype,id, x, y }, ctx, globalScale) => {
           if(urltype=='core'){
               ctx.fillStyle = 'rgba(255, 50, 50, 0.8)';
               ctx.beginPath(); ctx.arc(x, y, 20, 0, 2 * Math.PI, false); ctx.fill(); 
@@ -72,8 +48,10 @@
               ctx.fillStyle = 'rgba(50, 50, 200, 0.8)';
               ctx.beginPath(); ctx.arc(x, y, 3, 0, 2 * Math.PI, false); ctx.fill(); 
           }
+          if(globalScale>1.0){
           ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
             ctx.font = '4px Sans-Serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(name, x, y); // text
+          }
           
         }) ;
   </script>
