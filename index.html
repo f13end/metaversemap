@@ -28,7 +28,8 @@
   cursor: -webkit-grabbing;
 }
 </style>
- <script src="//unpkg.com/force-graph"></script>
+  <script src="//unpkg.com/force-graph"></script>
+   <!--<script src="force-graph.js"></script>-->
 </head>
 
 <body>
@@ -57,7 +58,24 @@
         .linkColor(() => 'rgba(255,255,255,0.2)')
         .nodeRelSize(6)   
         .onNodeClick(node => window.open('http://' + node.name, '_blank'))   
-        .graphData(gData);
+        .graphData(gData)
+        .nodeCanvasObject(({ name, urltype,id, x, y }, ctx) => {
+          if(urltype=='core'){
+              ctx.fillStyle = 'rgba(255, 50, 50, 0.8)';
+              ctx.beginPath(); ctx.arc(x, y, 20, 0, 2 * Math.PI, false); ctx.fill(); 
+          }
+          if(urltype=='domain'){
+              ctx.fillStyle = 'rgba(50, 255, 50, 0.8)';
+              ctx.beginPath(); ctx.arc(x, y, 6, 0, 2 * Math.PI, false); ctx.fill(); 
+          }
+          if(urltype=='subdomain'){
+              ctx.fillStyle = 'rgba(50, 50, 200, 0.8)';
+              ctx.beginPath(); ctx.arc(x, y, 3, 0, 2 * Math.PI, false); ctx.fill(); 
+          }
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.font = '4px Sans-Serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(name, x, y); // text
+          
+        }) ;
   </script>
 </body></html>
 
